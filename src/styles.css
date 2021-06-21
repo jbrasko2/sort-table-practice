@@ -1,0 +1,8 @@
+button.asc::after {
+    content: ' \2191';
+  }
+  
+  button.desc::after {
+    content: ' \2193';
+  }
+  
