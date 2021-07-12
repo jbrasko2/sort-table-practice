@@ -1,39 +1,44 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-const FrameworksTable = (props) => {
-  const repoData = props.data
-  const [sortField, setSortField] = useState(null)
-  const [sortDirection, setSortDirection] = useState(null)
-  let sortedData = [...repoData]
+const FrameworksTable = props => {
+  const repoData = props.data;
+  const [sortField, setSortField] = useState(null);
+  const [sortDirection, setSortDirection] = useState(null);
+  let sortedData = [...repoData];
 
   if (sortField !== null) {
     sortedData.sort((a, b) => {
       if (a[sortField] < b[sortField]) {
-        return sortDirection === 'asc' ? 1 : -1
-      } else {
-        return sortDirection === 'asc' ? -1 : 1
+        return sortDirection === 'asc' ? -1 : 1;
       }
-    })
+      if (a[sortField] > b[sortField]) {
+        return sortDirection === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
   }
 
-  const handleSort = (field) => {
-    if (sortDirection === 'asc') {
-      setSortDirection('desc')
+  // always sort ascending first for new field
+  const handleSort = field => {
+    if (field === sortField) {
+      sortDirection === 'asc'
+        ? setSortDirection('desc')
+        : setSortDirection('asc');
     } else {
-      setSortDirection('asc')
+      setSortDirection('asc');
     }
-    setSortField(field)
-  }
+    setSortField(field);
+  };
 
-  const getClassName = (name) => {
+  const getClassName = name => {
     if (name === sortField) {
-      return sortDirection
+      return sortDirection;
     }
-  }
+  };
 
-  const capitalize = (name) => {
-    return name.charAt(0).toUpperCase() + name.slice(1)
-  }
+  const capitalize = name => {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  };
 
   return (
     <table>
@@ -75,7 +80,7 @@ const FrameworksTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {sortedData.map((repo) => (
+        {sortedData.map(repo => (
           <tr key={repo.name}>
             <td>{capitalize(repo.name)}</td>
             <td>{repo.stargazers_count}</td>
@@ -85,7 +90,7 @@ const FrameworksTable = (props) => {
         ))}
       </tbody>
     </table>
-  )
-}
+  );
+};
 
-export default FrameworksTable
+export default FrameworksTable;
